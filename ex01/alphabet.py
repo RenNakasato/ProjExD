@@ -1,9 +1,15 @@
 import random
 import datetime
+import time
+
+taisyo = [] #対象文字列
+kesson = [] #欠損文字列
+max_num = 10 #ゲームの最大値
+count = 0 #ゲームの回数
 
 #問題の表示場所
 def toi():
-    global taisyo, kesson
+    global taisyo, kesson#対象文字列、欠損文字列
     #ない法表記でアルファベット出力
     alp = [chr(65+i) for i in range(26)]
     # random.sample(リスト,どのぐらいのサイズのものか)
@@ -19,7 +25,7 @@ def toi():
 
 #問題自体の処理
 def kakunin():
-    global kesson, count
+    global kesson, count#欠損文字列、ゲーム回数
     #欠損文字が何個か聞く
     kes_num = len(kesson)
     user_ans = int(input("欠損文字はいくつあるでしょうか?:"))
@@ -46,14 +52,14 @@ def kakunin():
 if __name__ == "__main__":
 
     st = datetime.datetime.now()
-    count = 0
     #回数制限で10回まで
-    while (count < 10):
-        print("\n"*2)
+    while (count < max_num):
+        print("\n")
         print("-"*10)
-        taisyo = []
-        kesson = []
         toi()
         kakunin()
+        time.sleep(3)
+        print("\n")
+        time.sleep(1)
     ed = datetime.datetime.now()
     print(f"{(ed-st).seconds}秒かかりました")

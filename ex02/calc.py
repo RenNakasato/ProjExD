@@ -2,18 +2,26 @@ import tkinter as tk
 import tkinter.messagebox as tkm
 from turtle import right
 
-def button_click(event):
+def click_button(event):
     btn = event.widget
     txt = btn["text"]
     # tkm.showinfo(txt,f"{txt}が押されました")
     entry.insert(tk.END,txt)
 
 
+def click_equal(event):
+    num = entry.get()
+    txt = eval(num)
+    entry.delete(0,tk.END)
+    entry.insert(tk.END, txt)
+
+
 
 root = tk.Tk()
-root.geometry("300x500")
+root.geometry("400x600")
 
 entry = tk.Entry(root,
+                 text=0,
                  width=10,
                  font=("Times New Roman",40),
                  justify="right")
@@ -24,7 +32,7 @@ r,c=1,0
 for i in range(9,-1,-1):
     button = tk.Button(root,text=i,font=("Times New Roman", 30),height=2,width=4)
     button.grid(row=r,column=c)
-    button.bind("<1>",button_click)
+    button.bind("<1>",click_button)
     c +=1
     if c ==3:
         r +=1
@@ -32,6 +40,11 @@ for i in range(9,-1,-1):
 
 button_plus = tk.Button(root,text="+",font=("Times New Roman",30),height=2,width=4)
 button_plus.grid(row=r,column=c)
-button_plus.bind("<1>",button_click)
+c += 1
+button_plus.bind("<1>",click_button)
+
+button_eq = tk.Button(root,text="=",font=("Times New Roman",30),height=2,width=4)
+button_eq.grid(row=r,column=c)
+button_eq.bind("<1>",click_equal)
 
 root.mainloop()

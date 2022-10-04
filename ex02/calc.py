@@ -7,6 +7,8 @@ def click_button(event):
     # tkm.showinfo(txt,f"{txt}が押されました")
     entry.insert(tk.END,txt)
 
+def click_clar(event):
+    entry.delete(0, tk.END)
 
 def click_equal(event):
     num = entry.get()
@@ -37,6 +39,10 @@ for i in range(9,-1,-1):
         r +=1
         c = 0
 
+button_clar = tk.Button(root,text="c",font=("Times New Roman", 30),height=2,width=4)
+button_clar.grid(row=r,column=c)
+button_clar.bind("<1>",click_clar)
+
 button_plus = tk.Button(root,text="+",font=("Times New Roman",30),height=2,width=4)
 button_plus.grid(row=1,column=5)
 button_plus.bind("<1>",click_button)
@@ -45,8 +51,16 @@ button_minus = tk.Button(root,text="-",font=("Times New Roman",30),height=2,widt
 button_minus.grid(row=2,column=5)
 button_minus.bind("<1>",click_button)
 
+button_mult = tk.Button(root,text="*",font=("Times New Roman",30),height=2,width=4)
+button_mult.grid(row=3,column=5)
+button_mult.bind("<1>",click_button)
+
+button_div = tk.Button(root,text="/",font=("Times New Roman",30),height=2,width=4)
+button_div.grid(row=4,column=5)
+button_div.bind("<1>",click_button)
+
 button_eq = tk.Button(root,text="=",font=("Times New Roman",30),height=2,width=4)
-button_eq.grid(row=4,column=5)
+button_eq.grid(row=5,column=5)
 button_eq.bind("<1>",click_equal)
 
 root.mainloop()

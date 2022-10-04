@@ -1,7 +1,6 @@
 import tkinter as tk
 import math
 
-sisoku = ""
 
 # エントリーに数字を入力する
 def click_button(event):
@@ -34,6 +33,7 @@ def click_ru_to(event):
     num = entry.get()
     txt = eval(num)
     txt = math.sqrt(txt)
+    txt = "{:.4f}".format(txt)
     entry.delete(0,tk.END)
     entry.insert(tk.END, txt)
 
@@ -51,6 +51,7 @@ def click_equal(event):
 
 root = tk.Tk()
 root.geometry("500x600")
+root.title("超高機能電卓")
 
 entry = tk.Entry(root,
                  width=10,
@@ -63,7 +64,9 @@ entry.grid(row=0,column=0,columnspan=8)
 r,c=1,1
 
 #数字のボタンを作る
-for i in range(9,-1,-1):
+num_list = [i for i in range(9,-1,-1)]
+sonota_list = ["."]
+for i in (num_list+sonota_list):
     button = tk.Button(root,text=i,font=("Times New Roman", 30),height=2,width=4)
     button.grid(row=r,column=c)
     button.bind("<1>",click_button)
@@ -71,10 +74,11 @@ for i in range(9,-1,-1):
     if c ==4:
         r +=1
         c = 1
-# 小数点にする
-button = tk.Button(root,text=".",font=("Times New Roman", 30),height=2,width=4)
-button.grid(row=r,column=2)
-button.bind("<1>",click_button)
+
+#＝を行う
+button_eq = tk.Button(root,text="=",font=("Times New Roman",30),height=2,width=4)
+button_eq.grid(row=r,column=c)
+button_eq.bind("<1>",click_equal)
 
 #Cを追加して、押すとすべて消す
 button_clar = tk.Button(root,text="c",font=("Times New Roman", 30),height=2,width=4)
@@ -93,29 +97,18 @@ button_rui.bind("<1>",click_rui_trhee)
 
 #　ルートを追加して、押すとルートする。
 button_ru_to = tk.Button(root,text="√",font=("Times New Roman", 30),height=2,width=4)
-button_ru_to.grid(row=3,column=7)
+button_ru_to.grid(row=4,column=7)
 button_ru_to.bind("<1>",click_ru_to)
 
 # 四則演算関係
-button_plus = tk.Button(root,text="+",font=("Times New Roman",30),height=2,width=4)
-button_plus.grid(row=1,column=8)
-button_plus.bind("<1>",click_button)
+r,c = 1,8
+sisoku_list = ["+","-","*","/"]
+for i in sisoku_list:
+    button_plus = tk.Button(root,text=i,font=("Times New Roman",30),height=2,width=4)
+    button_plus.grid(row=r,column=c)
+    button_plus.bind("<1>",click_button)
+    r +=1
 
-button_minus = tk.Button(root,text="-",font=("Times New Roman",30),height=2,width=4)
-button_minus.grid(row=2,column=8)
-button_minus.bind("<1>",click_button)
 
-button_mult = tk.Button(root,text="*",font=("Times New Roman",30),height=2,width=4)
-button_mult.grid(row=3,column=8)
-button_mult.bind("<1>",click_button)
-
-button_div = tk.Button(root,text="/",font=("Times New Roman",30),height=2,width=4)
-button_div.grid(row=4,column=8)
-button_div.bind("<1>",click_button)
-
-#＝を行う
-button_eq = tk.Button(root,text="=",font=("Times New Roman",30),height=2,width=4)
-button_eq.grid(row=r,column=c+1)
-button_eq.bind("<1>",click_equal)
 
 root.mainloop()

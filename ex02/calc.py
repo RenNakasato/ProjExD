@@ -1,6 +1,5 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
-from turtle import right
 
 def click_button(event):
     btn = event.widget
@@ -26,7 +25,7 @@ entry = tk.Entry(root,
                  font=("Times New Roman",40),
                  justify="right")
 
-entry.grid(row=0,column=0,columnspan=4)
+entry.grid(row=0,column=0,columnspan=6)
 
 r,c=1,0
 for i in range(9,-1,-1):
@@ -39,12 +38,15 @@ for i in range(9,-1,-1):
         c = 0
 
 button_plus = tk.Button(root,text="+",font=("Times New Roman",30),height=2,width=4)
-button_plus.grid(row=r,column=c)
-c += 1
+button_plus.grid(row=1,column=5)
 button_plus.bind("<1>",click_button)
 
+button_minus = tk.Button(root,text="-",font=("Times New Roman",30),height=2,width=4)
+button_minus.grid(row=2,column=5)
+button_minus.bind("<1>",click_button)
+
 button_eq = tk.Button(root,text="=",font=("Times New Roman",30),height=2,width=4)
-button_eq.grid(row=r,column=c)
+button_eq.grid(row=4,column=5)
 button_eq.bind("<1>",click_equal)
 
 root.mainloop()

@@ -8,6 +8,8 @@ def button_click(event):
     # tkm.showinfo(txt,f"{txt}が押されました")
     entry.insert(tk.END,txt)
 
+
+
 root = tk.Tk()
 root.geometry("300x500")
 
@@ -27,5 +29,9 @@ for i in range(9,-1,-1):
     if c ==3:
         r +=1
         c = 0
+
+button_plus = tk.Button(root,text="+",font=("Times New Roman",30),height=2,width=4)
+button_plus.grid(row=r,column=c)
+button_plus.bind("<1>",button_click)
 
 root.mainloop()

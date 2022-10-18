@@ -1,9 +1,9 @@
 import tkinter as tk
-from turtle import goto
 import maze_maker as mm
-import random
 import tkinter.messagebox as tkm
 import datetime
+import random
+
 
 def key_down(event):
     global key, maze
@@ -25,6 +25,7 @@ def key_down(event):
         canv.create_rectangle(1300, 800, 1400, 900, fill = "red")
         st = datetime.datetime.now()
 
+
 def gaol():
     global mx, my
     global cx, cy
@@ -37,6 +38,7 @@ def gaol():
         canv.create_rectangle(100, 0, 200, 100, fill ="gray")
         canv.create_rectangle(1300, 800, 1400, 900, fill = "gray")
         st = 0
+
 
 def key_up(event):
     global key
@@ -64,13 +66,13 @@ def main_proc():
     gaol()
     root.after(100, main_proc)
 
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん") #１
 
     canv = tk.Canvas(root, width=1500, height=900, bg="black")#2
     canv.pack()
-
 
     key = ""#4,5
     root.bind("<KeyPress>", key_down)
@@ -88,7 +90,5 @@ if __name__ == "__main__":
     main_proc()#7
 
     st, gt = 0, 0
-
-
 
     root.mainloop()

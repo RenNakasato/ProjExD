@@ -22,7 +22,9 @@ def key_down(event):
         cx, cy = mx*150, my*150
         canv.coords("tori", cx, cy)
         canv.create_rectangle(100, 0, 200, 100, fill = "blue")
+        canv.create_text(150,50, text="S",fill="white",font=("", 50))
         canv.create_rectangle(1300, 800, 1400, 900, fill = "red")
+        canv.create_text(1350,850, text="G",fill="white", font=("", 50))
         st = datetime.datetime.now()
 
 

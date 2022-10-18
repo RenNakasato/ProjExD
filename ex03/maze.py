@@ -6,9 +6,7 @@ import random
 
 
 def key_down(event):
-    global key, maze
-    global mx, cx, my, cy
-    global st, gt
+    global key, maze, mx, my, cx,cy, st, gt
     key = event.keysym
     if key == "c":
         mx, my = 1, 1
@@ -29,10 +27,7 @@ def key_down(event):
 
 
 def gaol():
-    global mx, my
-    global cx, cy
-    global maze
-    global st, gt
+    global mx, my, cx, cy, maze, st, gt
     if cx >= 1300 and cx < 1500 and cy >= 700 and cy < 900 and st != 0:
         gt = datetime.datetime.now()
         time = gt -st
@@ -48,10 +43,7 @@ def key_up(event):
 
 
 def main_proc():
-    global mx, my
-    global cx, cy
-    global maze
-    global st, gt
+    global mx, my, cx, cy, maze,st, gt
     if key =="Up":
         my -= 1
     if key =="Down":

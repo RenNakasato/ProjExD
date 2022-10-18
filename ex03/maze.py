@@ -44,14 +44,12 @@ def key_up(event):
 
 def main_proc():
     global mx, my, cx, cy, maze,st, gt
-    if key =="Up":
-        my -= 1
-    if key =="Down":
-        my +=1
-    if key == "Left":
-        mx -= 1
-    if key == "Right":
-        mx += 1
+    yazirusi = ["Up", "Down", "Left", "Right"]
+    zougenn = [[-1,0],[1,0],[0,-1], [0,1]]
+    if key in yazirusi:
+        num = zougenn[yazirusi.index(key)]
+        my += num[0]
+        mx += num[1]
     if maze[my][mx] == 0:
         cx, cy = mx*100+50, my*100+50
     else:

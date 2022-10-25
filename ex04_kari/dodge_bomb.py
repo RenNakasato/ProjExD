@@ -96,6 +96,7 @@ def main():#1
                 tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
 
 
+        #爆弾の速度関係
         if key_stats[pg.K_h]:
             bom_speed = 3
         if key_stats[pg.K_u]:
@@ -104,6 +105,7 @@ def main():#1
             vx, vy = 1,1
     
         yoko, tate = check_bound(bomb_rct,scrn_rct)
+        #書けることによって速度を上げる
         vx *= yoko * bom_speed
         vy *= tate * bom_speed
         bomb_rct.move_ip(vx,vy)

@@ -3,6 +3,7 @@ import pygame as pg
 import sys
 from random import randint
 
+#キーによる移動
 key_delta = {
     pg.K_UP:    [0, -1],
     pg.K_DOWN:  [0, +1],
@@ -10,6 +11,7 @@ key_delta = {
     pg.K_RIGHT: [+1, 0],
 }
 
+#画像変化用
 cr = {
     pg.K_0:0,
     pg.K_1:1,

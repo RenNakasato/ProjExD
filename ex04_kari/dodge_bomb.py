@@ -1,6 +1,27 @@
+from turtle import speed
 import pygame as pg
 import sys
 from random import randint
+
+key_delta = {
+    pg.K_UP:    [0, -1],
+    pg.K_DOWN:  [0, +1],
+    pg.K_LEFT:  [-1, 0],
+    pg.K_RIGHT: [+1, 0],
+}
+
+cr = {
+    pg.K_0:0,
+    pg.K_1:1,
+    pg.K_2:2,
+    pg.K_3:3,
+    pg.K_4:4,
+    pg.K_5:5,
+    pg.K_6:6,
+    pg.K_7:7,
+    pg.K_8:8,
+    pg.K_9:9,
+}
 
 def check_bound(obj_rct, scr_rct):
     """
@@ -31,14 +52,14 @@ def main():#1
     tori_rct.center = 900, 400
 
     #爆弾の中身
-    bomb_sfc = pg.Surface((20,20))
+    bomb_sfc = pg.Surface((40,40))
     bomb_sfc.set_colorkey((0,0,0))
-    pg.draw.circle(bomb_sfc, (255, 0, 0), (10, 10), 20)
+    pg.draw.circle(bomb_sfc, (255, 0, 0), (20, 20), 20)
     bomb_rct = bomb_sfc.get_rect()
     bomb_rct.centerx = randint(0,scrn_rct.width)
     bomb_rct.centery = randint(0, scrn_rct.height)
 
-    vx, vy = 1, 1
+    vx, vy, bom_speed = 1, 1, 1
 
     Clock = pg.time.Clock()
 
@@ -48,44 +69,75 @@ def main():#1
             if event.type == pg.QUIT:
                 return
         
-        key_stats = pg.key.get_pressed()#4
-        if key_stats[pg.K_UP]: tori_rct.centery -=1 
-        if key_stats[pg.K_DOWN]:tori_rct.centery +=1 
-        if key_stats[pg.K_LEFT]:tori_rct.centerx -=1
-        if key_stats[pg.K_RIGHT]:tori_rct.centerx +=1 
-        yoko, tate = check_bound(tori_rct, scrn_rct)
-        if yoko ==-1:
-            if key_stats[pg.K_LEFT]:
-                tori_rct.centerx +=1
-            if key_stats[pg.K_RIGHT]:
-                tori_rct.centerx -=1
-        if tate == -1:
-            if key_stats[pg.K_UP]:
-                tori_rct.centery +=1
-            if key_stats[pg.K_DOWN]:
-                tori_rct.centery -=1
+        key_stats = pg.key.get_pressed()
+        for key, delta in key_delta.items():
+            if key_stats[key]:
+                tori_rct.centerx += delta[0]
+                tori_rct.centery += delta[1]
+                # 練習7
+                if check_bound(tori_rct, scrn_rct) != (+1, +1):
+                    tori_rct.centerx -= delta[0]
+                    tori_rct.centery -= delta[1]
             
         scrn_sfc.blit(tori_sfc,tori_rct)
 
         if key_stats[pg.K_ESCAPE]:break
 
-        #6
+        for key, num in cr.items():
+            if key_stats[key]:
+                tori_sfc = pg.image.load(f"./fig/{num}.png")
+                tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
+
+
+        if key_stats[pg.K_h]:
+            bom_speed = 3
+        if key_stats[pg.K_u]:
+            bom_speed = 1.1
+        if key_stats[pg.K_n]:
+            vx, vy = 1,1
+    
         yoko, tate = check_bound(bomb_rct,scrn_rct)
-        vx *= yoko
-        vy *= tate
+        vx *= yoko * bom_speed
+        vy *= tate * bom_speed
         bomb_rct.move_ip(vx,vy)
         scrn_sfc.blit(bomb_sfc,bomb_rct)
 
+        bom_speed =1
+
         #3
-        if tori_rct.collidedict(bomb_rct):
+        if tori_rct.colliderect(bomb_rct):
             return
 
 
         pg.display.update()
         Clock.tick(1000)
 
+
+def gameover():
+    pg.display.set_caption("GAME OVER")
+    scrn_sfc = pg.display.set_mode((1600, 900))
+    scrn_sfc.fill("white")
+    scrn_rct = scrn_sfc.get_rect()
+    fonto = pg.font.Font(None, 180)
+    txt = fonto.render(str("GAME OVER"), True,"black")
+    scrn_sfc.blit(txt, (scrn_rct.width/4,scrn_rct.height/2))
+    pg.display.update()
+    Clock = pg.time.Clock()
+
+    while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                return
+            if event.type ==pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                return
+        Clock.tick(1000)
+
+
 if __name__=="__main__":
     pg.init()
     main()
+    pg.quit()
+    pg.init()
+    gameover()
     pg.quit()
     sys.exit()

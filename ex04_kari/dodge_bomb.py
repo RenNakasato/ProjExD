@@ -62,8 +62,13 @@ def main():#1
     vx, vy, bom_speed = 1, 1, 1
 
     Clock = pg.time.Clock()
-
     while True:
+        """
+        キー入力関係
+        矢印キーの移動
+        こうかとん画像の変化
+        速度変化
+        """
         scrn_sfc.blit(bg_sfc,bg_rct)
         for event in pg.event.get():
             if event.type == pg.QUIT:

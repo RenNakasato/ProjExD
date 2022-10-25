@@ -1,9 +1,8 @@
-from calendar import c
-from msilib import CreateRecord
 import pygame as pg
 import sys
 from random import randint
 
+#キーの判定
 key_delta = {
     pg.K_UP:    [0, -1],
     pg.K_DOWN:  [0, +1],
@@ -11,6 +10,7 @@ key_delta = {
     pg.K_RIGHT: [+1, 0],
 }
 
+#　キャラクターの画像
 key_cr ={
     pg.K_0 : 0,
     pg.K_1 : 1,
@@ -24,6 +24,7 @@ key_cr ={
     pg.K_9 : 9,
 }
 
+#画面はじ判定
 def check_bound(obj_rct, scr_rct):
     """
     obj_rct:爆弾_rctまたはこうかとん_rct
@@ -64,6 +65,7 @@ def main():#1
     #爆弾の速度
     vx, vy,bom_speed= 1, 1, 1
 
+    
     Clock = pg.time.Clock()
 
     while True:
@@ -72,6 +74,7 @@ def main():#1
             if event.type == pg.QUIT:
                 return
         
+        #矢印キーの操作
         key_stats = pg.key.get_pressed()#4
         for key, delta in key_delta.items():
             if key_stats[key]:
@@ -91,6 +94,7 @@ def main():#1
 
         scrn_sfc.blit(tori_sfc,tori_rct)
 
+        #エスケープでゲーム終了
         if key_stats[pg.K_ESCAPE]:break
 
         if key_stats[pg.K_u]:
@@ -105,6 +109,7 @@ def main():#1
         if key_stats[pg.K_d]:
             bom_speed = 0.9
 
+        #爆弾の挙動
         #6
         yoko, tate = check_bound(bomb_rct,scrn_rct)
         vx *= yoko * bom_speed
@@ -112,30 +117,34 @@ def main():#1
         bomb_rct.move_ip(vx,vy)
         scrn_sfc.blit(bomb_sfc,bomb_rct)
 
-        #3
+        #当たり判定
         if tori_rct.colliderect(bomb_rct):
             return
+
+        #爆弾の速度調整
         bom_speed = 1
 
         pg.display.update()
         Clock.tick(1000)
 
 
-
+#ゲームオーバー画面
 def gameover():
     pg.display.set_caption("ゲームが終わったよ")
     scrn_sfc = pg.display.set_mode((1600, 900))
     scrn_rct = scrn_sfc.get_rect()
     scrn_sfc.fill("white")
     fonto = pg.font.Font(None, 180)
-    txt = fonto.render(str("GAME END"), True, "black")
-    scrn_sfc.blit(txt,(scrn_rct.width/2,scrn_rct.height/2))
+    txt = fonto.render(str("GAME OVER"), True, "black")
+    scrn_sfc.blit(txt,(scrn_rct.width/4,scrn_rct.height/2))
     pg.display.update()
     Clock_go = pg.time.Clock()
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:return
-            
+
+        key_stats = pg.key.get_pressed()#4
+        if key_stats[pg.K_ESCAPE]:break
         Clock_go.tick(1000)
 
 

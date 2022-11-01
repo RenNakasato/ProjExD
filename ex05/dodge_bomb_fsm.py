@@ -1,8 +1,10 @@
 import pygame as pg
 import sys
 from random import randint
+#ゲームオーバーに関するインポート
 import time
 
+#スクリーンに関するクラス
 class Screen:
     def __init__(self, title, wh,bg):
         # 練習1
@@ -15,8 +17,7 @@ class Screen:
     def blit(self):
         self.sfc.blit(self.bg_sfc, self.bg_rct) # 練習2
 
-
-
+#こうかとんに関するクラス
 class Brid:
     key_delta = {
     pg.K_UP:    [0, -1],
@@ -46,7 +47,7 @@ class Brid:
                     self.rct.centery -= delta[1]
         self.blit(scr)
 
-
+#爆弾に関するクラス
 class Bomb:
     def __init__(self,color, r, spd,scr:Screen):
         # 練習5
@@ -68,6 +69,7 @@ class Bomb:
         self.vy *= tate
         self.blit(scr) # 練習5
 
+#敵（UFO）に関するクラス
 class Enemiy:
     def __init__(self,img,x,y,spd):
         sfc = pg.image.load(img)
@@ -87,7 +89,7 @@ class Enemiy:
         self.vy *= tate
         self.blit(scr) # 練習5
 
-
+#壁にあった時の判定
 def check_bound(obj_rct, scr_rct):
     """
     obj_rct：こうかとんrct，または，爆弾rct
@@ -112,6 +114,7 @@ def main():
     tori = Brid("./fig/6.png",2,(900,400))
 
     bomb = Bomb((255,0,0),10,(1,1),scre)
+    #UFOの名前
     enemiy1 = Enemiy("./ex05/data/alien1.png", 30, 40, 3)
     enemiy2 = Enemiy("./ex05/data/alien1.png", 1570, 40, 5)
     clock = pg.time.Clock() # 練習1
@@ -121,18 +124,21 @@ def main():
         for event in pg.event.get(): # 練習2
             if event.type == pg.QUIT:
                 return
+        #こうかとんの動き
         tori.updata(scre)
-
+        #爆弾の動き
         bomb.updata(scre)
-
+        #UFOの動き
         enemiy1.updata(scre)
         enemiy2.updata(scre)
-
+        #当たっり判定用のリスト
         hantei =[bomb.rct,enemiy1.rct,enemiy2.rct]
         # 練習8
         for obj in hantei:
-            if tori.rct.colliderect(obj): # こうかとんrctが爆弾rctと重なったら
+            if tori.rct.colliderect(obj):
+                #当たった時爆発の音声を流す
                 sound("./ex05/data/boom.wav")
+                #音の処理の都合上２秒止める
                 time.sleep(2)
                 return
 

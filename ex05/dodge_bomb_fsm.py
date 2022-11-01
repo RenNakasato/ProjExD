@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 from random import randint
-
+import time
 
 class Screen:
     def __init__(self, title, wh,bg):
@@ -68,6 +68,25 @@ class Bomb:
         self.vy *= tate
         self.blit(scr) # 練習5
 
+class Enemiy:
+    def __init__(self,img,x,y,spd):
+        sfc = pg.image.load(img)
+        self.sfc = pg.transform.rotozoom(sfc, 0, 1)
+        self.rct = self.sfc.get_rect()
+        self.rct.center = x, y
+        self.vx = 0
+        self.vy = spd
+
+    def blit(self, scr:Screen):
+        scr.sfc.blit(self.sfc, self.rct) # 練習3
+
+    def updata(self,scr:Screen):
+        self.rct.move_ip(self.vx, self.vy) # 練習6
+        yoko, tate = check_bound(self.rct, scr.rct)
+        self.vx *= yoko
+        self.vy *= tate
+        self.blit(scr) # 練習5
+
 
 def check_bound(obj_rct, scr_rct):
     """
@@ -83,13 +102,18 @@ def check_bound(obj_rct, scr_rct):
     return yoko, tate
 
 
+def sound(file_path):
+    pg.mixer.music.load(file_path)
+    pg.mixer.music.play(0,0)
+
 def main():
     scre = Screen("逃げろこうかとん",(1600,900),"./fig/pg_bg.jpg")
 
     tori = Brid("./fig/6.png",2,(900,400))
 
     bomb = Bomb((255,0,0),10,(1,1),scre)
-
+    enemiy1 = Enemiy("./ex05/data/alien1.png", 30, 40, 3)
+    enemiy2 = Enemiy("./ex05/data/alien1.png", 1570, 40, 5)
     clock = pg.time.Clock() # 練習1
     while True:
         scre.blit() # 練習2
@@ -97,14 +121,20 @@ def main():
         for event in pg.event.get(): # 練習2
             if event.type == pg.QUIT:
                 return
-
         tori.updata(scre)
 
         bomb.updata(scre)
 
+        enemiy1.updata(scre)
+        enemiy2.updata(scre)
+
+        hantei =[bomb.rct,enemiy1.rct,enemiy2.rct]
         # 練習8
-        if tori.rct.colliderect(bomb.rct): # こうかとんrctが爆弾rctと重なったら
-            return
+        for obj in hantei:
+            if tori.rct.colliderect(obj): # こうかとんrctが爆弾rctと重なったら
+                sound("./ex05/data/boom.wav")
+                time.sleep(2)
+                return
 
         pg.display.update() #練習2
         clock.tick(1000)

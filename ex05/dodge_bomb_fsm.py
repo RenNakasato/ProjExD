@@ -98,7 +98,8 @@ def check_bound(obj_rct, scr_rct):
 def sound(file_path):
     pg.mixer.music.load(file_path)
     pg.mixer.music.play(0,0)
-
+  
+  
 def main():
     scre = Screen("逃げろこうかとん",(1600,900),"./fig/pg_bg.jpg")
 

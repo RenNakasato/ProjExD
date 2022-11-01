@@ -70,7 +70,7 @@ class Bomb:
         self.blit(scr) # 練習5
 
 #敵（UFO）に関するクラス
-class Enemiy:
+class Enemiy(Bomb):
     def __init__(self,img,x,y,spd):
         sfc = pg.image.load(img)
         self.sfc = pg.transform.rotozoom(sfc, 0, 1)
@@ -79,15 +79,6 @@ class Enemiy:
         self.vx = 0
         self.vy = spd
 
-    def blit(self, scr:Screen):
-        scr.sfc.blit(self.sfc, self.rct) # 練習3
-
-    def updata(self,scr:Screen):
-        self.rct.move_ip(self.vx, self.vy) # 練習6
-        yoko, tate = check_bound(self.rct, scr.rct)
-        self.vx *= yoko
-        self.vy *= tate
-        self.blit(scr) # 練習5
 
 #壁にあった時の判定
 def check_bound(obj_rct, scr_rct):

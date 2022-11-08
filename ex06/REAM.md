@@ -1,5 +1,5 @@
 # 第6回
-##　ピンポンゲーム(ex06/pinpon.py)
+##  ピンポンゲーム(ex06/pinpon.py)
 ### ゲーム概要
 - ex06/pinpon.pyを実行すると、1600x900のスクリーンに草原が描画される
 - 左側がuserで右側がcomputer
